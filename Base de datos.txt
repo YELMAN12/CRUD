@@ -1,0 +1,21 @@
+CREATE DATABASE IF NOT EXISTS inventario_ti;
+
+USE inventario_ti;
+
+CREATE TABLE IF NOT EXISTS productos (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10, 2) NOT NULL,
+    stock INT(11) NOT NULL DEFAULT 0,
+    marca VARCHAR(100),
+    modelo VARCHAR(100),
+    PRIMARY KEY (id)
+);
+
+INSERT INTO productos (nombre, descripcion, precio, stock, marca, modelo) VALUES
+('Laptop Dell XPS 15', 'Portátil de alto rendimiento con procesador Intel Core i7, 16GB RAM y 512GB SSD.', 1500.00, 15, 'Dell', 'XPS 15'),
+('Monitor Curvo Samsung 27"', 'Monitor LED curvo de 27 pulgadas con resolución Full HD.', 350.50, 30, 'Samsung', 'C27F390'),
+('Teclado Mecánico HyperX', 'Teclado para gaming con switches rojos y retroiluminación RGB.', 120.75, 50, 'HyperX', 'Alloy FPS Pro'),
+('Mouse Logitech G502 HERO', 'Mouse de alta precisión para videojuegos con 11 botones programables.', 75.00, 45, 'Logitech', 'G502 HERO'),
+('Disco Duro Externo Seagate 2TB', 'Disco duro externo USB 3.0 con capacidad de 2TB.', 90.00, 20, 'Seagate', 'Expansion Portable');
