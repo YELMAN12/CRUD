@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Producto para Editar</title>
+    <title>Editar Producto</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -50,7 +50,7 @@
         .main-menu a:hover {
             background-color: #3498db;
         }
-        
+
         form {
             background-color: #fff;
             padding: 40px;
@@ -61,7 +61,6 @@
             margin-top: 100px;
             box-sizing: border-box;
             transition: transform 0.3s ease-in-out;
-            text-align: center;
         }
 
         form:hover {
@@ -75,7 +74,13 @@
             font-weight: 700;
         }
 
-        input {
+        p {
+            margin: 0.8em 0 0.5em 0;
+            font-weight: 600;
+            color: #34495e;
+        }
+        
+        input, textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #bdc3c7;
@@ -83,10 +88,9 @@
             box-sizing: border-box;
             font-size: 1rem;
             transition: border-color 0.3s ease-in-out;
-            margin-bottom: 20px;
         }
         
-        input:focus {
+        input:focus, textarea:focus {
             border-color: #e74c3c;
             outline: none;
             box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
@@ -103,6 +107,7 @@
             font-size: 1.1rem;
             font-weight: bold;
             transition: background-color 0.3s ease-in-out;
+            margin-top: 20px;
         }
 
         button:hover {
@@ -114,6 +119,9 @@
                 padding: 25px;
                 margin-top: 80px;
             }
+            .main-menu {
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -123,13 +131,47 @@
             <li><a href="formulario_s.html">Seleccionar</a></li>
             <li><a href="formulario_r.html">Registrar</a></li>
             <li><a href="formulario_e.html">Eliminar</a></li>
-            <li><a href="formulario_a.html">Actualizar</a></li>
+            <li><a href="formulario_a.html">Atualizar</a></li>
         </ul>
     </nav>
-    <form action="buscarporactualizar.php" method="POST">
-        <h2>Buscar Producto para Editar</h2>
-        <input type="number" name="id" placeholder="Ingresa el ID del producto" required>
-        <button type="submit">Buscar</button>
+    <form action="actualizar.php" method="POST">
+        <h2>Actualizar Producto</h2>
+        
+        <p>ID:</p>
+        <input type="number" name="id" id="id" readonly>
+
+        <p>Nombre:</p>
+        <input type="text" name="nombre" id="nombre" required>
+
+        <p>Descripción:</p>
+        <textarea name="descripcion" id="descripcion"></textarea>
+
+        <p>Precio:</p>
+        <input type="number" name="precio" id="precio" step="0.01" required>
+
+        <p>Stock:</p>
+        <input type="number" name="stock" id="stock" required>
+
+        <p>Marca:</p>
+        <input type="text" name="marca" id="marca">
+
+        <p>Modelo:</p>
+        <input type="text" name="modelo" id="modelo">
+        
+        <button type="submit">Guardar Cambios</button>
     </form>
+    <script>
+        // Función para obtener los parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        
+        // Llenar los campos del formulario con los datos de la URL
+        document.getElementById('id').value = params.get('id') || '';
+        document.getElementById('nombre').value = params.get('nombre') || '';
+        document.getElementById('descripcion').value = params.get('descripcion') || '';
+        document.getElementById('precio').value = params.get('precio') || '';
+        document.getElementById('stock').value = params.get('stock') || '';
+        document.getElementById('marca').value = params.get('marca') || '';
+        document.getElementById('modelo').value = params.get('modelo') || '';
+    </script>
 </body>
 </html>

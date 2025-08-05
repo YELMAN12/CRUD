@@ -1,32 +1,50 @@
 <?php
-include_once 'CRUD.php';
+// Incluye tu archivo de conexión. Asumo que se llama 'CRUD.php' como en ejemplos anteriores.
+include 'CRUD.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
-    $nombre = $_POST['nombre'];
-    $descripcion = $_POST['descripcion'];
-    $precio = $_POST['precio'];
-    $stock = $_POST['stock'];
-    $marca = $_POST['marca'];
-    $modelo = $_POST['modelo'];
-
-    $sql = "UPDATE productos SET 
-                nombre = '$nombre', 
-                descripcion = '$descripcion', 
-                precio = $precio, 
-                stock = $stock, 
-                marca = '$marca', 
-                modelo = '$modelo' 
-            WHERE id = $id";
-
-    if (mysqli_query($conexion, $sql)) {
-        echo "El producto se ha actualizado correctamente";
-    } else {
-        echo "Error al actualizar el producto: " . mysqli_error($conexion);
-    }
-    
-    mysqli_close($conexion);
-} else {
-    echo "Acceso denegado.";
+// Asegúrate de que la conexión exista y esté en un estado válido
+if (!isset($conexion) || $conexion->connect_error) {
+    die("Error: No se pudo establecer la conexión a la base de datos.");
 }
+
+// Obtener los datos del formulario de forma segura
+$id = $_POST['id'] ?? null;
+$nombre = $_POST['nombre'] ?? '';
+$descripcion = $_POST['descripcion'] ?? '';
+$precio = $_POST['precio'] ?? 0;
+$stock = $_POST['stock'] ?? 0;
+$marca = $_POST['marca'] ?? '';
+$modelo = $_POST['modelo'] ?? '';
+
+// Usar declaración preparada para prevenir inyección SQL
+$sql = "UPDATE productos SET 
+        nombre = ?, 
+        descripcion = ?, 
+        precio = ?, 
+        stock = ?, 
+        marca = ?, 
+        modelo = ? 
+        WHERE id = ?";
+
+$stmt = $conexion->prepare($sql);
+
+// Enlazar los parámetros a la declaración
+$stmt->bind_param("ssiissi", 
+    $nombre, 
+    $descripcion, 
+    $precio, 
+    $stock, 
+    $marca, 
+    $modelo, 
+    $id
+);
+
+if ($stmt->execute()) {
+    echo "¡Producto actualizado exitosamente!";
+} else {
+    echo "Error al actualizar el producto: " . $stmt->error;
+}
+
+$stmt->close();
+$conexion->close();
 ?>
